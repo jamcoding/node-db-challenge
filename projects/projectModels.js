@@ -8,47 +8,37 @@ function getProjectByID(id) {
     return db('projects').where({ id }).first();
 }
 
-function getResources(id) {
-    if (id) {
-        return db('resources').where({ id })
-    } else {
-        return db('resources')
-    }
-}
-
-function getTasks() {
-    if (id) {
-        return db('tasks').where({ id })
-    } else {
-        return db('tasks')
-    }
-}
-
-function getTasksById(id) {
+function getTasksByProjectId(id) {
     return db('tasks as t')
         .join('projects as p', 'p.id', 't.id')
         .select('t.id', 'p.name', 'p.description', 'p.completed')
         .where({ project_id: id });
 }
 
+function getResourcesByProjectId(id) {
+    return db('resources as r')
+        .join('projects as p', 'p.id', 'r.id')
+        .select('r.id', 'r.name', 'p.name', 'p.description', 'p.completed')
+        .where({ resource_id: id });
+}
+
 function addProjects(project) {
     return db('projects').insert(project)
 }
 
-function addResources() {
+function addResources(resource) {
     return db('resources').insert(resource)
 }
 
-function addTasks() {
+function addTasks(task) {
     return db('tasks').insert(task)
 }
 
 module.exports = {
     getProjects,
     getProjectByID,
-    getResources,
-    getTasks,
-    getTasksById,
+    getTasksByProjectId,
+    getResourcesByProjectId,
     addProjects,
     addResources,
     addTasks

@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
 router.get('/:id/tasks', (req, res) => {
     const { id } = req.params;
 
-    Projects.getTasks(id)
+    Projects.getTasksByProjectId(id)
         .then(tasks => {
             if (tasks.length) {
                 res.json(tasks)
@@ -55,6 +55,22 @@ router.get('/:id/tasks', (req, res) => {
         })
         .catch(error => {
             res.status(500).json({ messge: "Failed to retrieve tasks" })
+        })
+})
+
+router.get('/:id/resources', (req, res) => {
+    const { id } = req.params;
+
+    Projects.getResourcesByProjectId(id)
+        .then(resources => {
+            if (resources.length) {
+                res.json(resources)
+            } else {
+                res.status(404).json({ message: "Could not find resources for this project" })
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ messge: "Failed to retrieve resources" })
         })
 })
 
